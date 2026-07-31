@@ -12,6 +12,10 @@
 ![WCAG AA](https://img.shields.io/badge/contrast-WCAG%20AA-2e7d32?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)
 
+### 🔗 [**Открыть сайт в браузере →**](https://the-real-webmaster.github.io/grain-coffee-site/)
+
+[Репозиторий на GitHub](https://github.com/the-real-webmaster/grain-coffee-site) · сайт развёрнут через GitHub Pages и обновляется автоматически при пуше в ветку `main`
+
 </div>
 
 ---
@@ -67,7 +71,10 @@ Project-1/
 
 ## 🚀 Как запустить
 
-Проект не требует сборки и локальных зависимостей (AOS подключается через CDN, интернет нужен только для загрузки шрифтов/AOS/фото).
+Проект не требует сборки и локальных зависимостей (AOS/Swiper подключаются через CDN, интернет нужен только для загрузки шрифтов/библиотек/фото).
+
+**Вариант 0 — уже развёрнуто**
+Живая версия открыта на GitHub Pages: **https://the-real-webmaster.github.io/grain-coffee-site/** — ничего клонировать не нужно, просто открыть ссылку.
 
 **Вариант 1 — просто открыть файл**
 Откройте `index.html` двойным кликом в любом современном браузере.
