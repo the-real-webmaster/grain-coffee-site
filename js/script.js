@@ -199,6 +199,22 @@ function initScrollAnimations() {
     offset: isMobile ? 20 : 40,
     disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   });
+
+  // Аварийный предохранитель (по тому же принципу, что и у page-loader
+  // выше): CSS для [data-aos="fade-*"] сам по себе держит элемент на
+  // opacity:0, пока JS не добавит класс .aos-animate. На длинных страницах
+  // с большим числом анимированных карточек (например, меню) это может
+  // не сработать для части блоков — тогда контент навсегда остаётся
+  // невидимым, хотя физически он на странице есть. Через 2.5с после
+  // полной загрузки принудительно "проявляем" всё, что AOS почему-то
+  // пропустил, чтобы контент никогда не терялся из виду.
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('[data-aos]:not(.aos-animate)').forEach((el) => {
+        el.classList.add('aos-animate');
+      });
+    }, 2500);
+  });
 }
 
 /* ---------- Лёгкий parallax-эффект декоративных элементов в hero ---------- */
