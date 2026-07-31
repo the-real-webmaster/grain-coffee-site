@@ -172,8 +172,15 @@ function initHeaderScrollState() {
   const header = document.querySelector('.site-header');
   if (!header) return;
 
+  // Пишем в style только когда состояние реально меняется — иначе на
+  // каждый scroll-кадр (их десятки в секунду) браузер получает
+  // одинаковую строку и всё равно тратит время на пересчёт стилей.
+  let isScrolled = null;
   const onScroll = () => {
-    header.style.boxShadow = window.scrollY > 12 ? 'var(--shadow-card)' : 'none';
+    const shouldBeScrolled = window.scrollY > 12;
+    if (shouldBeScrolled === isScrolled) return;
+    isScrolled = shouldBeScrolled;
+    header.style.boxShadow = isScrolled ? 'var(--shadow-card)' : 'none';
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -225,15 +232,31 @@ function initHeroParallax() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.matchMedia('(max-width: 900px)').matches) return;
 
-  hero.addEventListener('mousemove', (e) => {
+  // mousemove может стрелять чаще, чем браузер успевает рисовать кадры —
+  // копим только последнюю позицию и применяем её не чаще раза за кадр
+  // через requestAnimationFrame, вместо того чтобы писать в style на
+  // каждое отдельное событие.
+  let rafId = null;
+  let pendingEvent = null;
+
+  const applyParallax = () => {
+    rafId = null;
+    if (!pendingEvent) return;
     const { innerWidth, innerHeight } = window;
-    const x = (e.clientX / innerWidth - 0.5) * 24;
-    const y = (e.clientY / innerHeight - 0.5) * 24;
+    const x = (pendingEvent.clientX / innerWidth - 0.5) * 24;
+    const y = (pendingEvent.clientY / innerHeight - 0.5) * 24;
 
     decos.forEach((deco, i) => {
       const factor = i % 2 === 0 ? 1 : -1;
       deco.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
     });
+  };
+
+  hero.addEventListener('mousemove', (e) => {
+    pendingEvent = e;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(applyParallax);
+    }
   });
 }
 
@@ -429,16 +452,44 @@ function initCardTilt() {
   );
 
   cards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width - 0.5;
-      const py = (e.clientY - rect.top) / rect.height - 0.5;
+    // Раньше getBoundingClientRect() читался на каждое mousemove — это
+    // принудительный синхронный пересчёт layout на каждое из десятков
+    // событий в секунду, и с несколькими картами под курсором именно
+    // это подвешивало страницу. Теперь геометрия карты считывается один
+    // раз при наведении (mouseenter), а сама отрисовка throttled через
+    // requestAnimationFrame — визуально эффект тот же самый.
+    let rect = null;
+    let rafId = null;
+    let pendingEvent = null;
+
+    const applyTilt = () => {
+      rafId = null;
+      if (!rect || !pendingEvent) return;
+      const px = (pendingEvent.clientX - rect.left) / rect.width - 0.5;
+      const py = (pendingEvent.clientY - rect.top) / rect.height - 0.5;
       const rotateX = (-py * 8).toFixed(2);
       const rotateY = (px * 8).toFixed(2);
       card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    };
+
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      pendingEvent = e;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyTilt);
+      }
     });
 
     card.addEventListener('mouseleave', () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      rect = null;
+      pendingEvent = null;
       card.style.transform = '';
     });
   });
@@ -474,9 +525,15 @@ function initBackToTop() {
   const btn = document.querySelector('.back-to-top');
   if (!btn) return;
 
-  window.addEventListener('scroll', () => {
-    btn.style.opacity = window.scrollY > 480 ? '1' : '0.4';
-  }, { passive: true });
+  let isVisible = null;
+  const onScroll = () => {
+    const shouldBeVisible = window.scrollY > 480;
+    if (shouldBeVisible === isVisible) return;
+    isVisible = shouldBeVisible;
+    btn.style.opacity = isVisible ? '1' : '0.4';
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
