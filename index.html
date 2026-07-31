@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP и Referrer-Policy — максимум, что можно задать на уровне статичного HTML.
+       X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security и т.д.
+       задаются только HTTP-заголовками сервера — см. .htaccess / netlify.toml /
+       vercel.json и раздел README → «Безопасность». -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>GRAIN — спешелти-кофейня в центре города</title>
+  <meta name="description" content="GRAIN — современная спешелти-кофейня: авторские напитки, собственная обжарка, тёплая атмосфера. Приходите за кофе, оставайтесь за настроением.">
+  <meta name="keywords" content="кофейня, спешелти кофе, кофе на вынос, авторские напитки, обжарка кофе, GRAIN">
+  <meta name="author" content="GRAIN Coffee">
+  <link rel="canonical" href="https://grain-coffee.example/index.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GRAIN — спешелти-кофейня в центре города">
+  <meta property="og:description" content="Авторские напитки, собственная обжарка и тёплая атмосфера. Знакомство с кофе начинается здесь.">
+  <meta property="og:image" content="https://grain-coffee.example/assets/og-image.svg">
+  <meta property="og:url" content="https://grain-coffee.example/index.html">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GRAIN — спешелти-кофейня в центре города">
+  <meta name="twitter:description" content="Авторские напитки, собственная обжарка и тёплая атмосфера.">
+  <meta name="twitter:image" content="https://grain-coffee.example/assets/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+  <!-- AOS (Animate On Scroll) — библиотека скролл-анимаций, см. https://michalsnik.github.io/aos/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <!-- Swiper — свайпаемая на мобильном карусель отзывов, см. js/script.js → initTestimonialsCarousel() -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/14.0.5/swiper-bundle.min.css" integrity="sha512-C6ZHXmi2D+9ZueKzMSAnsTABIN2oEGV8E3537XzwuQAgkGkxJaZhUpCsGd6CqUmbsu143O88afgzTrghg5nr9g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+
+  <!-- Индикатор загрузки страницы -->
+  <div class="page-loader" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <!-- ============ ХЕДЕР (повторяется на всех страницах) ============ -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand" aria-label="GRAIN — на главную">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20.5 8C16 13 16 32 20.5 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+          <path d="M31 4C31 6 33 6 33 8C33 10 31 10 31 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+        </svg>
+        <span>GRA<em>IN</em></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+        <a href="index.html" aria-current="page">Главная</a>
+        <a href="menu.html">Меню</a>
+        <a href="about.html">О нас</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="blog.html">Блог</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="contacts.html" class="btn btn-primary btn-sm">Забронировать столик</a>
+
+        <div class="main-nav-foot">
+          <span class="main-nav-hours">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Пн–Пт 8:00–22:00 · Сб–Вс 9:00–23:00
+          </span>
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Переключить тему">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero grain-texture">
+      <svg class="hero-deco deco-1" viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4"/></svg>
+      <svg class="hero-deco deco-2" viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4"/></svg>
+
+      <div class="container">
+        <div class="hero-copy" data-aos="fade-up" data-aos-duration="700">
+          <p class="eyebrow">Спешелти-кофейня</p>
+          <h1>Кофе — это <em>ремесло</em>,<br>а не просто напиток</h1>
+          <p>Мы обжариваем зерно сами, варим каждую чашку вручную и следим за качеством на каждом этапе — от фермы до вашей кружки.</p>
+          <div class="hero-actions">
+            <a href="menu.html" class="btn btn-primary">Смотреть меню</a>
+            <a href="contacts.html" class="btn btn-ghost">Как нас найти</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <strong>12+</strong>
+              <span>сортов зерна в обжарке</span>
+            </div>
+            <div>
+              <strong>4.9</strong>
+              <span>средняя оценка гостей</span>
+            </div>
+            <div>
+              <strong>2018</strong>
+              <span>работаем с любовью</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" data-aos="fade-up" data-aos-duration="700">
+          <!-- ЗАМЕНИТЬ: фото интерьера/бариста кофейни GRAIN -->
+          <img class="cover-img" src="https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=800&h=1000&fit=crop&q=80&auto=format" alt="Чашка эспрессо с падающими кофейными зёрнами и паром на тёмном фоне" width="800" height="1000">
+          <div class="hero-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h13a3 3 0 0 1 0 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 3.5c0 1-1 1-1 2s1 1 1 2M11 3.5c0 1-1 1-1 2s1 1 1 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <div>
+              <strong>Свежая обжарка каждую неделю</strong>
+              <span>Собственная ростерия GRAIN Roastery</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ О НАС КРАТКО ============ -->
+    <section class="alt-bg">
+      <div class="container">
+        <div class="grid about-split">
+          <div class="media" data-aos="fade-up" data-aos-duration="700">
+            <!-- ЗАМЕНИТЬ: фото зернового склада/обжарки -->
+            <img class="cover-img" src="https://images.unsplash.com/photo-1524350876685-274059332603?w=700&h=560&fit=crop&q=80&auto=format" alt="Мешковина с кофейными зёрнами на складе перед обжаркой" loading="lazy" width="700" height="560">
+          </div>
+          <div data-aos="fade-up" data-aos-duration="700">
+            <p class="eyebrow">Философия GRAIN</p>
+            <h2>Простые правила хорошего кофе</h2>
+            <p>Мы не гонимся за модой — мы гонимся за вкусом. Каждая партия зерна проходит дегустацию, каждый рецепт — десятки тестов, а каждый бариста — обучение и практику перед тем, как встать за стойку.</p>
+            <ul>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Зерно напрямую от фермеров и проверенных обжарщиков</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Молоко и сиропы — только локальные фермерские поставщики</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Бариста, которые готовы рассказать о каждом сорте зерна</span>
+              </li>
+            </ul>
+            <a href="about.html" class="btn btn-ghost u-mt-3">Узнать нашу историю</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ПРЕИМУЩЕСТВА ============ -->
+    <section>
+      <div class="container">
+        <div class="section-head center" data-aos="fade-up" data-aos-duration="700">
+          <p class="eyebrow">Почему GRAIN</p>
+          <h2>Кофейня, в которую хочется возвращаться</h2>
+        </div>
+        <div class="grid features-grid">
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h13a3 3 0 0 1 0 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Собственная обжарка</h3>
+            <p>Обжариваем зерно малыми партиями прямо в городе — так вкус раскрывается максимально полно.</p>
+          </div>
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v6M12 21v-6M4.2 7.8l5.2 3M14.6 13.2l5.2 3M4.2 16.2l5.2-3M14.6 10.8l5.2-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Авторские рецепты</h3>
+            <p>Бариста-команда разрабатывает сезонные напитки, которых не найти в других кофейнях.</p>
+          </div>
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 21c1.5-4 3.5-6 9-6s7.5 2 9 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
+            </div>
+            <h3>Опытные бариста</h3>
+            <p>Каждый бариста проходит внутреннюю школу GRAIN и регулярно повышает квалификацию.</p>
+          </div>
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.8"/></svg>
+            </div>
+            <h3>Уютное пространство</h3>
+            <p>Работаем, встречаемся, читаем — интерьер продуман для долгих и коротких визитов.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ПОПУЛЯРНЫЕ НАПИТКИ ============ -->
+    <section class="alt-bg">
+      <div class="container">
+        <div class="section-head" data-aos="fade-up" data-aos-duration="700">
+          <p class="eyebrow">В тренде</p>
+          <h2>Популярные напитки этого месяца</h2>
+        </div>
+        <div class="grid menu-preview-grid">
+          <article class="drink-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="thumb">
+              <span class="badge">Хит</span>
+              <img class="cover-img" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&h=400&fit=crop&q=80&auto=format" alt="Флэт уайт с молочным рисунком в керамической чашке" loading="lazy" width="500" height="400">
+            </div>
+            <div class="body">
+              <div class="row"><h3>Флэт Уайт</h3><span class="price">от 320 ₽</span></div>
+              <p>Двойной эспрессо и бархатное молоко — баланс крепости и мягкости.</p>
+            </div>
+          </article>
+          <article class="drink-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="thumb">
+              <span class="badge">Новинка</span>
+              <img class="cover-img" src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=500&h=400&fit=crop&q=80&auto=format" alt="Апельсиновый флэт уайт со специями рядом с зёрнами и портафильтром" loading="lazy" width="500" height="400">
+            </div>
+            <div class="body">
+              <div class="row"><h3>Апельсиновый Флэт Уайт</h3><span class="price">от 380 ₽</span></div>
+              <p>Сезонный авторский напиток с цитрусовой нотой и кардамоном.</p>
+            </div>
+          </article>
+          <article class="drink-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="thumb">
+              <img class="cover-img" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=500&h=400&fit=crop&q=80&auto=format" alt="Фильтр-кофе в пуровере на деревянной стойке" loading="lazy" width="500" height="400">
+            </div>
+            <div class="body">
+              <div class="row"><h3>Фильтр V60</h3><span class="price">от 290 ₽</span></div>
+              <p>Раскрываем сортовые особенности зерна в чистой, лёгкой чашке.</p>
+            </div>
+          </article>
+          <article class="drink-card" data-aos="fade-up" data-aos-duration="700">
+            <div class="thumb">
+              <img class="cover-img" src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&h=400&fit=crop&q=80&auto=format" alt="Айс-латте с карамельным сиропом со льдом" loading="lazy" width="500" height="400">
+            </div>
+            <div class="body">
+              <div class="row"><h3>Карамельный Айс-латте</h3><span class="price">от 350 ₽</span></div>
+              <p>Мягкий эспрессо, молоко и домашний карамельный сироп со льдом.</p>
+            </div>
+          </article>
+        </div>
+        <div class="u-text-center u-mt-4">
+          <a href="menu.html" class="btn btn-primary">Всё меню</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ОТЗЫВЫ ============ -->
+    <section>
+      <div class="container">
+        <div class="section-head center" data-aos="fade-up" data-aos-duration="700">
+          <p class="eyebrow">Отзывы гостей</p>
+          <h2>Что говорят о GRAIN</h2>
+        </div>
+        <!-- Карусель на Swiper: свайп на мобильном, 2-3 карточки на планшете/десктопе.
+             Пока JS не подключился, .swiper-wrapper выглядит как обычная grid-сетка (styles.css). -->
+        <div class="testimonials-track swiper" data-aos="fade-up" data-aos-duration="700">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="testimonial-card">
+                <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+                <p>«Лучший флэт уайт в городе. Атмосфера располагает остаться на пару часов с ноутбуком».</p>
+                <div class="testimonial-author">
+                  <div class="avatar-photo"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=88&h=88&fit=crop&q=80&auto=format" alt="Портрет гостьи кофейни Анны" loading="lazy" width="44" height="44"></div>
+                  <div><strong>Анна К.</strong><span>Постоянная гостья</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="testimonial-card">
+                <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+                <p>«Впервые попробовал фильтр-кофе именно здесь — теперь дома пытаюсь повторить рецепт бариста».</p>
+                <div class="testimonial-author">
+                  <div class="avatar-photo"><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=88&h=88&fit=crop&q=80&auto=format" alt="Портрет гостя кофейни Дмитрия" loading="lazy" width="44" height="44"></div>
+                  <div><strong>Дмитрий С.</strong><span>Гость из блога о кофе</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="testimonial-card">
+                <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+                <p>«Бариста всегда помнят мой заказ и советуют новинки. Очень домашняя атмосфера при этом стильная».</p>
+                <div class="testimonial-author">
+                  <div class="avatar-photo"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=88&h=88&fit=crop&q=80&auto=format" alt="Портрет гостьи кофейни Марии" loading="lazy" width="44" height="44"></div>
+                  <div><strong>Мария П.</strong><span>Дизайнер, работает из GRAIN</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section>
+      <div class="container">
+        <div class="cta-banner" data-aos="fade-up" data-aos-duration="700">
+          <div>
+            <h2>Загляните на чашку кофе уже сегодня</h2>
+            <p>Открыты каждый день. Столики можно забронировать заранее — особенно по выходным.</p>
+          </div>
+          <a href="contacts.html" class="btn btn-ghost">Найти нас на карте</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ ФУТЕР (повторяется на всех страницах) ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>GRA<em>IN</em></span>
+          </a>
+          <p>Спешелти-кофейня в сердце города. Обжариваем сами, варим с любовью.</p>
+          <!-- TODO: замените на реальные ссылки соцсетей кофейни -->
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="gallery.html">Галерея</a></li>
+            <li><a href="blog.html">Блог</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Меню</h4>
+          <ul>
+            <li><a href="menu.html#espresso">Эспрессо-бар</a></li>
+            <li><a href="menu.html#filter">Фильтр-кофе</a></li>
+            <li><a href="menu.html#signature">Авторские напитки</a></li>
+            <li><a href="menu.html#desserts">Десерты</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><span>Ул. Кофейная, 1 (уточнить)</span></li>
+            <li><span>Телефон — TODO</span></li>
+            <li><span>Email — TODO</span></li>
+            <li><span>Ежедневно, 8:00–22:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="current-year"></span> GRAIN Coffee. Все права защищены.</span>
+        <button class="back-to-top" aria-label="Наверх">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Микроразметка Schema.org: CafeOrCoffeeShop. Замените placeholder-значения на реальные перед публикацией -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "GRAIN",
+    "image": "https://grain-coffee.example/assets/og-image.svg",
+    "url": "https://grain-coffee.example/",
+    "servesCuisine": "Coffee",
+    "priceRange": "₽₽",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ул. Кофейная, 1 (уточнить)",
+      "addressLocality": "Город (уточнить)",
+      "addressCountry": "RU"
+    },
+    "telephone": "+7 (000) 000-00-00",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "22:00"
+      }
+    ]
+  }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/14.0.5/swiper-bundle.min.js" integrity="sha512-DMunOu/iiGaR/Jq+asCspQ+ip9ASQi+bUl2Ct0ByLOoIOGrl9hNG/+aBZGKZ38jjOP/YCckpogtuhq3L0GLb5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/script.js?v=2"></script>
+</body>
+</html>

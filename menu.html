@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP и Referrer-Policy — максимум, что можно задать на уровне статичного HTML.
+       X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security и т.д.
+       задаются только HTTP-заголовками сервера — см. .htaccess / netlify.toml /
+       vercel.json и раздел README → «Безопасность». -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Меню — GRAIN | Эспрессо, фильтр-кофе, авторские напитки и десерты</title>
+  <meta name="description" content="Полное меню кофейни GRAIN: эспрессо-бар, фильтр-кофе, авторские сезонные напитки и десерты собственной выпечки.">
+  <meta name="keywords" content="меню кофейни, эспрессо, флэт уайт, фильтр кофе, авторские напитки, десерты">
+  <meta name="author" content="GRAIN Coffee">
+  <link rel="canonical" href="https://grain-coffee.example/menu.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Меню — GRAIN">
+  <meta property="og:description" content="Эспрессо-бар, фильтр-кофе, авторские напитки и десерты собственной выпечки.">
+  <meta property="og:image" content="https://grain-coffee.example/assets/og-image.svg">
+  <meta property="og:url" content="https://grain-coffee.example/menu.html">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Меню — GRAIN">
+  <meta name="twitter:description" content="Эспрессо-бар, фильтр-кофе, авторские напитки и десерты.">
+  <meta name="twitter:image" content="https://grain-coffee.example/assets/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+  <!-- AOS (Animate On Scroll) — библиотека скролл-анимаций, см. https://michalsnik.github.io/aos/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+
+  <div class="page-loader" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand" aria-label="GRAIN — на главную">
+        <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 8C16 13 16 32 20.5 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/><path d="M31 4C31 6 33 6 33 8C33 10 31 10 31 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/></svg>
+        <span>GRA<em>IN</em></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+        <a href="index.html">Главная</a>
+        <a href="menu.html" aria-current="page">Меню</a>
+        <a href="about.html">О нас</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="blog.html">Блог</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="contacts.html" class="btn btn-primary btn-sm">Забронировать столик</a>
+        <div class="main-nav-foot">
+          <span class="main-nav-hours">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Пн–Пт 8:00–22:00 · Сб–Вс 9:00–23:00
+          </span>
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Переключить тему">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="breadcrumb-hero">
+      <div class="container">
+        <p class="eyebrow" data-aos="fade-up" data-aos-duration="700">Меню GRAIN</p>
+        <h1 data-aos="fade-up" data-aos-duration="700">Каждая чашка — результат выбора</h1>
+        <p data-aos="fade-up" data-aos-duration="700">От классического эспрессо до сезонных авторских напитков. Все цены указаны за стандартную порцию, объём можно уточнить у бариста.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="menu-filters" data-aos="fade-up" data-aos-duration="700" role="group" aria-label="Фильтр категорий меню">
+          <button class="filter-btn is-active" data-filter="all">Всё меню</button>
+          <button class="filter-btn" data-filter="espresso">Эспрессо-бар</button>
+          <button class="filter-btn" data-filter="filter">Фильтр-кофе</button>
+          <button class="filter-btn" data-filter="signature">Авторские напитки</button>
+          <button class="filter-btn" data-filter="desserts">Десерты</button>
+        </div>
+
+        <!-- ЭСПРЕССО-БАР -->
+        <div data-menu-category="espresso" id="espresso">
+          <div class="menu-category-title" data-aos="fade-up" data-aos-duration="700"><h2>Эспрессо-бар</h2></div>
+          <div class="grid menu-item-list">
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=500&h=380&fit=crop&q=80&auto=format" alt="Классический эспрессо в маленькой чашке на зёрнах" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Эспрессо</h3><span class="price">190 ₽</span></div>
+                <p>Насыщенный, плотный, с ореховым послевкусием.</p>
+                <div class="tags"><span>Крепкий</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=500&h=380&fit=crop&q=80&auto=format" alt="Капучино с латте-артом на подложке из кофейных зёрен" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Капучино</h3><span class="price">290 ₽</span></div>
+                <p>Классические пропорции эспрессо, молока и плотной пены.</p>
+                <div class="tags"><span>Бестселлер</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=500&h=380&fit=crop&q=80&auto=format" alt="Флэт уайт с рисунком на молочной пенке рядом с портафильтром" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Флэт Уайт</h3><span class="price">320 ₽</span></div>
+                <p>Двойной эспрессо, бархатное молоко, минимум пены.</p>
+                <div class="tags"><span>Хит</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?w=500&h=380&fit=crop&q=80&auto=format" alt="Латте с молочным рисунком и печеньем" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Латте</h3><span class="price">310 ₽</span></div>
+                <p>Мягкий и сливочный, отличный выбор для новичков в кофе.</p>
+                <div class="tags"><span>Для новичков</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=500&h=380&fit=crop&q=80&auto=format" alt="Раф кофе с ванилью в стеклянной чашке" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Раф Ванильный</h3><span class="price">340 ₽</span></div>
+                <p>Взбитые сливки с эспрессо и ванильным сахаром.</p>
+                <div class="tags"><span>Сладкий</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&h=380&fit=crop&q=80&auto=format" alt="Айс американо со льдом в высоком стакане" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Айс Американо</h3><span class="price">260 ₽</span></div>
+                <p>Эспрессо, вода и лёд — освежает в жаркий день.</p>
+                <div class="tags"><span>Холодный</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- ФИЛЬТР-КОФЕ -->
+        <div data-menu-category="filter" id="filter">
+          <div class="menu-category-title" data-aos="fade-up" data-aos-duration="700"><h2>Фильтр-кофе</h2></div>
+          <div class="grid menu-item-list">
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=500&h=380&fit=crop&q=80&auto=format" alt="Заваривание кофе в пуровере V60" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>V60 (Эфиопия)</h3><span class="price">290 ₽</span></div>
+                <p>Цветочные и ягодные ноты, лёгкое чистое тело.</p>
+                <div class="tags"><span>Фруктовый</span><span>Vegan</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=500&h=380&fit=crop&q=80&auto=format" alt="Свежемолотый кофе для кемекса рядом с зёрнами" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Кемекс (Колумбия)</h3><span class="price">300 ₽</span></div>
+                <p>Сбалансированный вкус с нотами карамели и ореха.</p>
+                <div class="tags"><span>Сбалансированный</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1580933073521-dc49ac0d4e6a?w=500&h=380&fit=crop&q=80&auto=format" alt="Обжаренные кофейные зёрна крупным планом" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Аэропресс (Бразилия)</h3><span class="price">280 ₽</span></div>
+                <p>Плотное тело, шоколадные и ореховые оттенки.</p>
+                <div class="tags"><span>Шоколадный</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- АВТОРСКИЕ НАПИТКИ -->
+        <div data-menu-category="signature" id="signature">
+          <div class="menu-category-title" data-aos="fade-up" data-aos-duration="700"><h2>Авторские напитки</h2></div>
+          <div class="grid menu-item-list">
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb">
+                <span class="badge">Новинка</span>
+                <img class="cover-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&h=380&fit=crop&q=80&auto=format" alt="Апельсиновый флэт уайт — авторский сезонный напиток" loading="lazy" width="500" height="380">
+              </div>
+              <div class="body">
+                <div class="row"><h3>Апельсиновый Флэт Уайт</h3><span class="price">380 ₽</span></div>
+                <p>Цитрусовая нота и кардамон в дуэте с эспрессо.</p>
+                <div class="tags"><span>Сезонный</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&h=380&fit=crop&q=80&auto=format" alt="Чай в стеклянной чашке с пряностями" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Кокосовый Чай-латте</h3><span class="price">360 ₽</span></div>
+                <p>Пряный чай, кокосовое молоко, лёгкая сладость.</p>
+                <div class="tags"><span>Vegan</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=500&h=380&fit=crop&q=80&auto=format" alt="Матча латте зелёного цвета с рисунком на пенке" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Матча Латте</h3><span class="price">340 ₽</span></div>
+                <p>Японская матча, взбитая с бархатным молоком.</p>
+                <div class="tags"><span>Без кофеина</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- ДЕСЕРТЫ -->
+        <div data-menu-category="desserts" id="desserts">
+          <div class="menu-category-title" data-aos="fade-up" data-aos-duration="700"><h2>Десерты</h2></div>
+          <div class="grid menu-item-list">
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=500&h=380&fit=crop&q=80&auto=format" alt="Кусок чизкейка с ягодами на тарелке" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Чизкейк Нью-Йорк</h3><span class="price">280 ₽</span></div>
+                <p>Классический рецепт, выпекается в собственной кухне.</p>
+                <div class="tags"><span>Домашний</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&h=380&fit=crop&q=80&auto=format" alt="Круассан с сахарной пудрой" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Миндальный Круассан</h3><span class="price">220 ₽</span></div>
+                <p>Хрустящее слоёное тесто с миндальным кремом.</p>
+                <div class="tags"><span>Свежая выпечка</span></div>
+              </div>
+            </article>
+            <article class="menu-card" data-aos="fade-up" data-aos-duration="700">
+              <div class="thumb"><img class="cover-img" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500&h=380&fit=crop&q=80&auto=format" alt="Слоёный десерт с какао и сливочным кремом" loading="lazy" width="500" height="380"></div>
+              <div class="body">
+                <div class="row"><h3>Морковный Торт</h3><span class="price">260 ₽</span></div>
+                <p>Пряный бисквит и сливочный крем-чиз.</p>
+                <div class="tags"><span>Домашний</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>GRA<em>IN</em></span>
+          </a>
+          <p>Спешелти-кофейня в сердце города. Обжариваем сами, варим с любовью.</p>
+          <!-- TODO: замените на реальные ссылки соцсетей кофейни -->
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="gallery.html">Галерея</a></li>
+            <li><a href="blog.html">Блог</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Меню</h4>
+          <ul>
+            <li><a href="menu.html#espresso">Эспрессо-бар</a></li>
+            <li><a href="menu.html#filter">Фильтр-кофе</a></li>
+            <li><a href="menu.html#signature">Авторские напитки</a></li>
+            <li><a href="menu.html#desserts">Десерты</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><span>Ул. Кофейная, 1 (уточнить)</span></li>
+            <li><span>Телефон — TODO</span></li>
+            <li><span>Email — TODO</span></li>
+            <li><span>Ежедневно, 8:00–22:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="current-year"></span> GRAIN Coffee. Все права защищены.</span>
+        <button class="back-to-top" aria-label="Наверх">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/script.js?v=2"></script>
+</body>
+</html>

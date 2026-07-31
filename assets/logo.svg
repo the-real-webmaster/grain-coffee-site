@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Логотип GRAIN: монограмма "G" построена как кофейное зерно с бороздкой и дымком пара.
+     Используется currentColor, поэтому цвет наследуется от родителя и одинаково хорошо
+     смотрится на светлом и тёмном фоне — достаточно задать color в CSS. -->
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="grainLogoTitle">
+  <title id="grainLogoTitle">GRAIN — кофейня</title>
+  <!-- Контур зерна, разомкнутый как буква G -->
+  <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23"
+        stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Бороздка зерна -->
+  <path d="M20.5 8C16 13 16 32 20.5 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+  <!-- Дымок пара -->
+  <path d="M31 4C31 6 33 6 33 8C33 10 31 10 31 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+  <path d="M36 5.5C36 7 37.5 7 37.5 8.5C37.5 10 36 10 36 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+</svg>

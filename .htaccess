@@ -1,0 +1,57 @@
+# =============================================================================
+# GRAIN — конфигурация Apache для статического хостинга.
+# Дублирует и дополняет то, что уже задано через <meta> в HTML (CSP, referrer):
+# здесь можно установить заголовки, которые НЕЛЬЗЯ выставить через <meta> —
+# X-Frame-Options, X-Content-Type-Options, Permissions-Policy,
+# Strict-Transport-Security, а также полноценный CSP с frame-ancestors.
+# Подключается автоматически Apache/LiteSpeed-хостингом (или сервером
+# на его основе), если mod_headers доступен. Для nginx/Node — см. README,
+# раздел «Безопасность», там же приведены netlify.toml и vercel.json.
+# =============================================================================
+
+<IfModule mod_headers.c>
+  # Запрет встраивания сайта во фрейм на чужих доменах (защита от clickjacking).
+  # meta-тег для X-Frame-Options браузеры игнорируют — только HTTP-заголовок.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Запрет браузеру угадывать MIME-тип файла — защита от MIME-sniffing атак.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Что передавать в заголовке Referer при переходах на другие сайты.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Отключаем доступ к чувствительным API браузера, которые сайту не нужны.
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
+
+  # HSTS: браузер будет сам подставлять https:// для этого домена в течение
+  # 2 лет. Включайте ТОЛЬКО когда сайт гарантированно и всегда работает по
+  # HTTPS (иначе можно случайно заблокировать себе доступ по http на период
+  # действия заголовка) — по умолчанию строка закомментирована.
+  # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+  # Полноценный CSP с frame-ancestors (в meta-теге эта директива не поддерживается).
+  # Значение синхронизировано с <meta http-equiv="Content-Security-Policy"> в HTML —
+  # при изменении домена/подключении внешних сервисов обновите оба места.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
+</IfModule>
+
+# Отдаём .svg с правильным типом (нужно некоторым старым конфигурациям Apache).
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+</IfModule>
+
+# Базовое сжатие текстовых форматов — ускоряет отдачу CSS/JS/SVG.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain
+</IfModule>
+
+# Кэширование статики на стороне клиента.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# Запрещаем листинг содержимого директорий.
+Options -Indexes

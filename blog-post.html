@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP и Referrer-Policy — максимум, что можно задать на уровне статичного HTML.
+       X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security и т.д.
+       задаются только HTTP-заголовками сервера — см. .htaccess / netlify.toml /
+       vercel.json и раздел README → «Безопасность». -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Как заварить фильтр-кофе дома: гид по V60 — Блог GRAIN</title>
+  <meta name="description" content="Пошаговый гайд от бариста GRAIN: как заварить чистый и сбалансированный фильтр-кофе через пуровер V60 в домашних условиях.">
+  <meta name="keywords" content="v60, фильтр кофе, пуровер, как заварить кофе, гайд по кофе">
+  <meta name="author" content="GRAIN Coffee">
+  <link rel="canonical" href="https://grain-coffee.example/blog-post.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Как заварить фильтр-кофе дома: гид по V60">
+  <meta property="og:description" content="Пошаговый гайд от бариста GRAIN по завариванию фильтр-кофе через V60.">
+  <meta property="og:image" content="https://grain-coffee.example/assets/og-image.svg">
+  <meta property="og:url" content="https://grain-coffee.example/blog-post.html">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Как заварить фильтр-кофе дома: гид по V60">
+  <meta name="twitter:description" content="Пошаговый гайд от бариста GRAIN по завариванию фильтр-кофе через V60.">
+  <meta name="twitter:image" content="https://grain-coffee.example/assets/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+  <!-- AOS (Animate On Scroll) — библиотека скролл-анимаций, см. https://michalsnik.github.io/aos/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+
+  <div class="page-loader" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand" aria-label="GRAIN — на главную">
+        <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 8C16 13 16 32 20.5 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/><path d="M31 4C31 6 33 6 33 8C33 10 31 10 31 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/></svg>
+        <span>GRA<em>IN</em></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+        <a href="index.html">Главная</a>
+        <a href="menu.html">Меню</a>
+        <a href="about.html">О нас</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="blog.html" aria-current="page">Блог</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="contacts.html" class="btn btn-primary btn-sm">Забронировать столик</a>
+        <div class="main-nav-foot">
+          <span class="main-nav-hours">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Пн–Пт 8:00–22:00 · Сб–Вс 9:00–23:00
+          </span>
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Переключить тему">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <section class="post-hero">
+        <div class="container">
+          <p class="eyebrow" data-aos="fade-up" data-aos-duration="700">Гайды · 12 марта 2026 · 6 мин чтения</p>
+          <h1 data-aos="fade-up" data-aos-duration="700">Как заварить фильтр-кофе дома: гид по V60</h1>
+          <!-- ЗАМЕНИТЬ: обложка статьи -->
+          <img data-aos="fade-up" data-aos-duration="700" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&h=500&fit=crop&q=80&auto=format" alt="Пуровер V60 с бумажным фильтром и кофе крупным планом" loading="lazy" width="1200" height="500">
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="post-content" data-aos="fade-up" data-aos-duration="700">
+            <p>V60 — один из самых доступных и при этом гибких способов заваривания кофе. Воронка конической формы и спиральные рёбра внутри дают воде равномерно проходить через молотый кофе, раскрывая его вкус максимально чисто. Разбираем процесс по шагам, чтобы результат получился таким же, как в зале GRAIN.</p>
+
+            <h2>Что понадобится</h2>
+            <ul>
+              <li>Воронка V60 и бумажный фильтр</li>
+              <li>Свежемолотый кофе средне-крупного помола (как морская соль)</li>
+              <li>Весы и таймер — точность решает половину результата</li>
+              <li>Чайник с узким носиком для контролируемого пролива</li>
+              <li>Вода, нагретая до 92–96 °C</li>
+            </ul>
+
+            <h2>Пропорции</h2>
+            <p>Базовое соотношение — 1:15, то есть на 15 г кофе понадобится 225 мл воды. Для более крепкой и плотной чашки можно снизить соотношение до 1:13, для лёгкой и прозрачной — поднять до 1:16.</p>
+
+            <blockquote>«Главная ошибка новичков — слишком быстрый и неравномерный пролив. Дайте кофе время подышать», — Иван Орлов, Head Barista GRAIN.</blockquote>
+
+            <h2>Пошаговая инструкция</h2>
+            <h3>1. Раскрытие кофе (blooming)</h3>
+            <p>Залейте кофе водой в объёме, примерно вдвое превышающем массу кофе (30 мл на 15 г), и подождите 30–40 секунд. Это позволяет выйти углекислому газу и раскрыться аромату.</p>
+
+            <h3>2. Основной пролив</h3>
+            <p>Медленно, круговыми движениями от центра к краям, долейте оставшуюся воду в два-три захода. Старайтесь не лить прямо на бумажный фильтр — вода должна попадать только на слой кофе.</p>
+
+            <h3>3. Время заваривания</h3>
+            <p>Весь процесс должен занять 2:30–3:30 минуты. Если вода проходит слишком быстро — используйте более мелкий помол, если слишком медленно — более крупный.</p>
+
+            <h2>Частые ошибки</h2>
+            <ol>
+              <li>Слишком горячая вода — кофе получается горьким</li>
+              <li>Неровный помол — вкус становится непредсказуемым от чашки к чашке</li>
+              <li>Отсутствие весов — сложно повторить удачный результат</li>
+            </ol>
+
+            <p>Попробуйте разные сорта зерна из нашего <a href="menu.html#filter">фильтр-меню</a> — V60 особенно хорошо раскрывает фруктовые и цветочные профили эфиопского кофе.</p>
+
+            <div class="post-tags">
+              <span>V60</span>
+              <span>Фильтр-кофе</span>
+              <span>Гайд для дома</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="related-posts alt-bg">
+        <div class="container">
+          <div class="section-head" data-aos="fade-up" data-aos-duration="700">
+            <p class="eyebrow">Читайте также</p>
+            <h2>Похожие статьи</h2>
+          </div>
+          <div class="grid blog-grid">
+            <article class="article-card" data-aos="fade-up" data-aos-duration="700">
+              <a class="thumb" href="blog-post.html">
+                <img class="cover-img" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=500&h=320&fit=crop&q=80&auto=format" alt="Кофейные зёрна крупным планом" loading="lazy" width="500" height="320">
+              </a>
+              <div class="body">
+                <div class="article-meta"><span class="cat">Зерно</span><span>2 марта 2026</span></div>
+                <h3><a href="blog-post.html">Чем отличается арабика от робусты</a></h3>
+                <p>Простыми словами о том, откуда берутся вкусовые различия.</p>
+                <a class="read-more" href="blog-post.html">Читать статью
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </article>
+            <article class="article-card" data-aos="fade-up" data-aos-duration="700">
+              <a class="thumb" href="blog-post.html">
+                <img class="cover-img" src="https://images.unsplash.com/photo-1580933073521-dc49ac0d4e6a?w=500&h=320&fit=crop&q=80&auto=format" alt="Обжаренные кофейные зёрна крупным планом" loading="lazy" width="500" height="320">
+              </a>
+              <div class="body">
+                <div class="article-meta"><span class="cat">Обжарка</span><span>28 января 2026</span></div>
+                <h3><a href="blog-post.html">Светлая, средняя, тёмная: степени обжарки</a></h3>
+                <p>Как степень обжарки влияет на вкус чашки.</p>
+                <a class="read-more" href="blog-post.html">Читать статью
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </article>
+            <article class="article-card" data-aos="fade-up" data-aos-duration="700">
+              <a class="thumb" href="blog-post.html">
+                <img class="cover-img" src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=500&h=320&fit=crop&q=80&auto=format" alt="Кофемолка и свежемолотый кофе на столе" loading="lazy" width="500" height="320">
+              </a>
+              <div class="body">
+                <div class="article-meta"><span class="cat">Оборудование</span><span>21 февраля 2026</span></div>
+                <h3><a href="blog-post.html">Как выбрать кофемолку для дома</a></h3>
+                <p>На что смотреть при выборе первой домашней кофемолки.</p>
+                <a class="read-more" href="blog-post.html">Читать статью
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>GRA<em>IN</em></span>
+          </a>
+          <p>Спешелти-кофейня в сердце города. Обжариваем сами, варим с любовью.</p>
+          <!-- TODO: замените на реальные ссылки соцсетей кофейни -->
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="gallery.html">Галерея</a></li>
+            <li><a href="blog.html">Блог</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Меню</h4>
+          <ul>
+            <li><a href="menu.html#espresso">Эспрессо-бар</a></li>
+            <li><a href="menu.html#filter">Фильтр-кофе</a></li>
+            <li><a href="menu.html#signature">Авторские напитки</a></li>
+            <li><a href="menu.html#desserts">Десерты</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><span>Ул. Кофейная, 1 (уточнить)</span></li>
+            <li><span>Телефон — TODO</span></li>
+            <li><span>Email — TODO</span></li>
+            <li><span>Ежедневно, 8:00–22:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="current-year"></span> GRAIN Coffee. Все права защищены.</span>
+        <button class="back-to-top" aria-label="Наверх">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Микроразметка Schema.org для статьи блога -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Как заварить фильтр-кофе дома: гид по V60",
+    "image": "https://grain-coffee.example/assets/og-image.svg",
+    "datePublished": "2026-03-12",
+    "author": { "@type": "Organization", "name": "GRAIN Coffee" },
+    "publisher": { "@type": "Organization", "name": "GRAIN Coffee" }
+  }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/script.js?v=2"></script>
+</body>
+</html>

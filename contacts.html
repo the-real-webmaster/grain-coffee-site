@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP и Referrer-Policy — максимум, что можно задать на уровне статичного HTML.
+       X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security и т.д.
+       задаются только HTTP-заголовками сервера — см. .htaccess / netlify.toml /
+       vercel.json и раздел README → «Безопасность». -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Контакты — GRAIN | Адрес, часы работы, обратная связь</title>
+  <meta name="description" content="Свяжитесь с кофейней GRAIN: форма обратной связи, часы работы и расположение. Забронируйте столик или задайте вопрос.">
+  <meta name="keywords" content="контакты кофейни, адрес кофейни, часы работы, обратная связь, бронирование столика">
+  <meta name="author" content="GRAIN Coffee">
+  <link rel="canonical" href="https://grain-coffee.example/contacts.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Контакты — GRAIN">
+  <meta property="og:description" content="Адрес, часы работы и форма обратной связи кофейни GRAIN.">
+  <meta property="og:image" content="https://grain-coffee.example/assets/og-image.svg">
+  <meta property="og:url" content="https://grain-coffee.example/contacts.html">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Контакты — GRAIN">
+  <meta name="twitter:description" content="Адрес, часы работы и форма обратной связи кофейни GRAIN.">
+  <meta name="twitter:image" content="https://grain-coffee.example/assets/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+  <!-- AOS (Animate On Scroll) — библиотека скролл-анимаций, см. https://michalsnik.github.io/aos/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+
+  <div class="page-loader" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand" aria-label="GRAIN — на главную">
+        <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 8C16 13 16 32 20.5 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/><path d="M31 4C31 6 33 6 33 8C33 10 31 10 31 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/></svg>
+        <span>GRA<em>IN</em></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+        <a href="index.html">Главная</a>
+        <a href="menu.html">Меню</a>
+        <a href="about.html">О нас</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="blog.html">Блог</a>
+        <a href="contacts.html" aria-current="page">Контакты</a>
+        <a href="contacts.html#contact-form" class="btn btn-primary btn-sm">Забронировать столик</a>
+        <div class="main-nav-foot">
+          <span class="main-nav-hours">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Пн–Пт 8:00–22:00 · Сб–Вс 9:00–23:00
+          </span>
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Переключить тему">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="breadcrumb-hero">
+      <div class="container">
+        <p class="eyebrow" data-aos="fade-up" data-aos-duration="700">Контакты</p>
+        <h1 data-aos="fade-up" data-aos-duration="700">Будем рады видеть вас</h1>
+        <p data-aos="fade-up" data-aos-duration="700">Есть вопрос, хотите забронировать столик или предложить сотрудничество — напишите нам, ответим в течение дня.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="grid contact-grid">
+
+          <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+          <div data-aos="fade-up" data-aos-duration="700">
+            <div class="contact-form-wrap" id="contact-form-wrap">
+              <h2>Написать нам</h2>
+              <p class="u-mb-2">Заполните форму — мы свяжемся с вами по указанным контактам.</p>
+
+              <div class="form-success" role="status">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="form-success-text">Спасибо! Ваше сообщение отправлено — мы скоро ответим.</span>
+              </div>
+
+              <!-- TODO: подключить реальную отправку формы (fetch к своему API/сервису форм) и серверную
+                   валидацию/антиспам. Сейчас submit обрабатывается в js/script.js и имитирует успех. -->
+              <form id="contact-form" novalidate>
+                <div class="form-group">
+                  <label for="name">Имя</label>
+                  <input type="text" id="name" name="name" data-required placeholder="Как к вам обращаться" autocomplete="name">
+                  <span class="error-msg">Пожалуйста, укажите имя</span>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" data-required placeholder="you@example.com" autocomplete="email">
+                  <span class="error-msg">Введите корректный email</span>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Телефон (необязательно)</label>
+                  <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                  <label for="message">Сообщение</label>
+                  <textarea id="message" name="message" data-required placeholder="Расскажите, чем можем помочь"></textarea>
+                  <span class="error-msg">Напишите пару слов о вашем вопросе</span>
+                </div>
+                <!-- Honeypot против спам-ботов: реальным пользователям не видно и не доступно с клавиатуры,
+                     но простые боты, заполняющие все поля формы подряд, попадаются на него. Если поле
+                     заполнено — отправка молча отклоняется в js/script.js (initContactForm). -->
+                <div class="form-group form-honeypot" aria-hidden="true">
+                  <label for="company">Компания</label>
+                  <input type="text" id="company" name="company" data-honeypot tabindex="-1" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Отправить сообщение</button>
+                <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+              </form>
+            </div>
+          </div>
+
+          <!-- ИНФОРМАЦИЯ -->
+          <div data-aos="fade-up" data-aos-duration="700">
+            <div class="contact-info-card">
+              <h2>Как нас найти</h2>
+              <ul class="contact-info-list">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5a7 7 0 0 0-14 0C5 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg>
+                  <div>
+                    <strong>Адрес</strong>
+                    <span>Ул. Кофейная, 1 (уточнить точный адрес)</span>
+                  </div>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5c0-.6.4-1 1-1h2.6c.5 0 .9.3 1 .8l.8 3a1 1 0 0 1-.3 1L7.5 10.8a12 12 0 0 0 5.7 5.7l1.5-1.6a1 1 0 0 1 1-.3l3 .8c.5.1.8.5.8 1V19c0 .6-.4 1-1 1h-1C10.5 20 4 13.5 4 6.5v-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  <div>
+                    <strong>Телефон</strong>
+                    <span>TODO — уточнить номер</span>
+                  </div>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 6.5l8 6.5 8-6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div>
+                    <strong>Email</strong>
+                    <span>TODO — уточнить адрес почты</span>
+                  </div>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div>
+                    <strong>Часы работы</strong>
+                    <table class="hours-table">
+                      <tbody>
+                        <tr><td>Пн–Пт</td><td>8:00–22:00</td></tr>
+                        <tr><td>Сб–Вс</td><td>9:00–23:00</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Карта-заглушка: реальных геоданных нет, вместо интерактивной карты — стилизованная заглушка -->
+            <div class="map-placeholder" role="img" aria-label="Заглушка карты расположения кофейни GRAIN — точный адрес уточняется">
+              <div>
+                <svg class="pin" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5a7 7 0 0 0-14 0C5 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.6"/></svg>
+                <p>Карта появится здесь после подключения сервиса карт (Яндекс.Карты / Google Maps) и указания точного адреса.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M30.5 12.5C28 9.6 24.3 8 20.5 8C12.5 8 6 14.5 6 22.5C6 30.5 12.5 37 20.5 37C28 37 34.2 31.4 34.9 24.2C35 23.1 34.9 22.5 34.9 22.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>GRA<em>IN</em></span>
+          </a>
+          <p>Спешелти-кофейня в сердце города. Обжариваем сами, варим с любовью.</p>
+          <!-- TODO: замените на реальные ссылки соцсетей кофейни -->
+          <div class="footer-social">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 4.5L3.5 11l6 2.2m11-8.7L15.5 19l-6-5.8m11-8.7l-11 8.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="VK (открывается в новой вкладке)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9c.3 6 3.5 9.5 9 9.5M4 9h3c.4 3 2 5 3 5.5V9h3v3.5c1-.3 2.6-1.7 3.2-3.5h3c-.5 2.2-2 3.9-3 4.6.9.5 2.7 2 3.3 4.4h-3.2c-.4-1.6-1.7-2.9-3.3-3.4v3.4H16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="gallery.html">Галерея</a></li>
+            <li><a href="blog.html">Блог</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Меню</h4>
+          <ul>
+            <li><a href="menu.html#espresso">Эспрессо-бар</a></li>
+            <li><a href="menu.html#filter">Фильтр-кофе</a></li>
+            <li><a href="menu.html#signature">Авторские напитки</a></li>
+            <li><a href="menu.html#desserts">Десерты</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><span>Ул. Кофейная, 1 (уточнить)</span></li>
+            <li><span>Телефон — TODO</span></li>
+            <li><span>Email — TODO</span></li>
+            <li><span>Ежедневно, 8:00–22:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="current-year"></span> GRAIN Coffee. Все права защищены.</span>
+        <button class="back-to-top" aria-label="Наверх">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Микроразметка Schema.org: контактная страница + LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "GRAIN",
+    "url": "https://grain-coffee.example/contacts.html",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ул. Кофейная, 1 (уточнить)",
+      "addressLocality": "Город (уточнить)",
+      "addressCountry": "RU"
+    },
+    "telephone": "+7 (000) 000-00-00",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday","Sunday"], "opens": "09:00", "closes": "23:00" }
+    ]
+  }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/script.js?v=2"></script>
+</body>
+</html>

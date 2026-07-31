@@ -1,0 +1,1799 @@
+/* =========================================================================
+   GRAIN — стили сайта кофейни
+   Структура файла:
+   1. Fonts / Reset
+   2. CSS-переменные (светлая/тёмная темы)
+   3. Базовая типографика
+   4. Утилиты и layout-контейнеры
+   5. Хедер / навигация / бургер-меню
+   6. Кнопки и общие интерактивные элементы
+   7. Hero-секция
+   8. Общие секции сайта (преимущества, о нас, CTA)
+   9. Карточки меню и напитков
+   10. Отзывы
+   11. Галерея (masonry + lightbox)
+   12. Блог и статья
+   13. Контакты (форма, карта-заглушка, часы работы)
+   14. Футер
+   15. Анимации / reveal-on-scroll
+   16. Адаптивность (media queries)
+   ========================================================================= */
+
+/* ---------- 1. Fonts / Reset ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Единый, доступный focus-ring поверх браузерного дефолта — виден в обеих темах */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- 2. CSS-переменные ---------- */
+:root {
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --container-width: 1200px;
+  --container-pad: 1.5rem;
+  --header-h: 84px;
+
+  --transition-fast: 200ms ease;
+  --transition-base: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* Светлая тема — тёплые кремовые оттенки, акцент терракотовый */
+:root,
+:root[data-theme='light'] {
+  --color-bg: #f6efe4;
+  --color-bg-alt: #efe4d3;
+  --color-surface: #fffaf2;
+  --color-surface-2: #f1e6d4;
+  --color-border: #ddceb3;
+  --color-text: #2a2019;
+  --color-text-muted: #6c5c4c;
+  --color-accent: #a8481f;
+  --color-accent-2: #7a3517;
+  --color-accent-contrast: #fff6ea;
+  --color-gold: #8a5a1c;
+  --shadow-soft: 0 20px 40px -24px rgba(42, 32, 25, 0.35);
+  --shadow-card: 0 12px 28px -18px rgba(42, 32, 25, 0.28);
+  --glow: 0 0 0 rgba(0, 0, 0, 0);
+  --overlay-scrim: rgba(24, 17, 12, 0.55);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* Тёмная тема — глубокий графит, акцент карамельно-медный со свечением */
+:root[data-theme='dark'] {
+  --color-bg: #15110d;
+  --color-bg-alt: #1c1712;
+  --color-surface: #201a15;
+  --color-surface-2: #271f18;
+  --color-border: #3a3025;
+  --color-text: #f2e9db;
+  --color-text-muted: #b7a892;
+  --color-accent: #dd9c4f;
+  --color-accent-2: #f0b972;
+  --color-accent-contrast: #211407;
+  --color-gold: #e0a94e;
+  --shadow-soft: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 14px 32px -18px rgba(0, 0, 0, 0.55);
+  --glow: 0 0 24px rgba(221, 156, 79, 0.28);
+  --overlay-scrim: rgba(10, 7, 4, 0.65);
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  transition: background-color var(--transition-base), color var(--transition-base);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- 3. Базовая типографика ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2.4rem, 5vw + 1rem, 4.6rem); font-weight: 500; }
+h2 { font-size: clamp(1.9rem, 3vw + 1rem, 3rem); }
+h3 { font-size: clamp(1.3rem, 1.2vw + 1rem, 1.7rem); }
+h4 { font-size: 1.15rem; }
+
+p { color: var(--color-text-muted); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: var(--color-accent);
+  display: inline-block;
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+.section-head p {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+}
+
+.section-head.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-head.center .eyebrow::before {
+  display: none;
+}
+
+/* ---------- 4. Утилиты / layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+section {
+  padding: clamp(4rem, 6vw, 7rem) 0;
+}
+
+.text-accent { color: var(--color-accent); }
+
+.grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 1rem;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Утилиты отступов/выравнивания — используются вместо инлайновых style="" */
+.u-text-center { text-align: center; }
+.u-mt-1 { margin-top: 1rem; }
+.u-mt-2 { margin-top: 1.5rem; }
+.u-mt-3 { margin-top: 2rem; }
+.u-mt-4 { margin-top: 3rem; }
+.u-mb-2 { margin-bottom: 1.5rem; }
+
+/* ---------- 4.5 Фото ----------
+   Реальные фотографии (тематически подобранные снимки кофеен/напитков)
+   вместо иллюстраций-плейсхолдеров. Общее у всех: object-fit: cover внутри
+   контейнера фиксированных пропорций (aspect-ratio задаётся на самом
+   контейнере — .thumb/.media/.hero-visual и т.д.), лёгкий zoom при hover
+   и общий border-radius/тень контейнера. */
+.cover-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+/* Круглые фотопортреты команды/отзывов */
+.avatar-photo {
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--color-bg-alt);
+}
+
+.avatar-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Едва заметная зерновая текстура для крупных секций (hero, cta) */
+.grain-texture {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0.5;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ---------- 5. Хедер / навигация ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+/* backdrop-filter — только на широких экранах. На мобильных внутри .site-header
+   лежит полноэкранное .main-nav с position:fixed; filter/backdrop-filter на
+   ЛЮБОМ предке создаёт для него новый containing block (тот же эффект, что и
+   transform), и position:fixed начинает считаться не от вьюпорта, а от
+   маленькой коробки хедера — из-за этого меню на телефоне схлопывалось в
+   узкую полосу под шапкой вместо полноэкранного оверлея. */
+@media (min-width: 901px) {
+  .site-header {
+    backdrop-filter: blur(14px);
+  }
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--header-h);
+  transition: height var(--transition-base);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.brand svg {
+  width: 38px;
+  height: 38px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.brand span em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.1rem;
+}
+
+.main-nav a {
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0.4rem 0;
+  transition: color var(--transition-fast);
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width var(--transition-fast);
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+  color: var(--color-text);
+}
+
+.main-nav a:hover::after,
+.main-nav a:focus-visible::after,
+.main-nav a[aria-current='page']::after {
+  width: 100%;
+}
+
+.main-nav a[aria-current='page'] {
+  color: var(--color-accent);
+}
+
+/* БАГФИКС: ".main-nav a" (класс+элемент = специфичность 0,1,1) был "тяжелее",
+   чем ".btn-primary" (0,1,0), поэтому у CTA-кнопки "Забронировать столик" в
+   шапке текст красился в приглушённый var(--color-text-muted) вместо светлого
+   var(--color-accent-contrast) и визуально сливался с терракотовым фоном
+   кнопки. Здесь специфичность заведомо выше (класс+класс+элемент),
+   плюс исключаем нижнее подчёркивание ссылок под кнопкой. */
+.main-nav a.btn-primary,
+.main-nav a.btn-primary:hover,
+.main-nav a.btn-primary:focus-visible {
+  color: var(--color-accent-contrast);
+}
+
+.main-nav a.btn-ghost,
+.main-nav a.btn-ghost:hover,
+.main-nav a.btn-ghost:focus-visible {
+  color: var(--color-text);
+}
+
+.main-nav a.btn-ghost:hover,
+.main-nav a.btn-ghost:focus-visible {
+  color: var(--color-accent);
+}
+
+.main-nav a.btn::after,
+.main-nav a.btn:hover::after,
+.main-nav a.btn:focus-visible::after {
+  display: none;
+}
+
+/* БАГФИКС #2: тот же принцип, но с паддингом — ".main-nav a" (0,1,1)
+   был тяжелее ".btn"/".btn-sm" (0,1,0), поэтому кнопка "Забронировать
+   столик" в шапке физически не могла получить паддинг из .btn-sm,
+   сколько бы его там ни увеличивали: тут специфичность выше и явно
+   побеждает, и на десктопе, и (вместе с мобильным блоком ниже) на
+   мобильных. */
+.main-nav a.btn {
+  padding: 0.8rem 1.9rem;
+}
+
+/* БАГФИКС #3: и снова та же причина — ".main-nav a" задаёт
+   "transition: color var(--transition-fast)" (0,1,1) и целиком
+   перебивает transition из ".btn" (0,1,0), где помимо цвета ещё
+   transform/background-color/box-shadow/border-color. В итоге при
+   наведении на кнопку фон и "приподнимание" дёргались мгновенно,
+   плавно менялся только цвет. Возвращаем полный список свойств. */
+.main-nav a.btn {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+/* Переключатель темы: солнце/луна */
+.theme-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+  transform: rotate(-8deg);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.theme-toggle .icon-sun {
+  opacity: 0;
+  transform: scale(0.5) rotate(45deg);
+}
+
+.theme-toggle .icon-moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+:root[data-theme='dark'] .theme-toggle .icon-sun {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+:root[data-theme='dark'] .theme-toggle .icon-moon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-45deg);
+}
+
+/* Бургер-меню */
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  position: relative;
+  z-index: 620;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: border-color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.burger:hover {
+  border-color: var(--color-accent);
+}
+
+.burger:active {
+  transform: scale(0.92);
+}
+
+.burger.is-open {
+  background: var(--color-surface-2);
+  border-color: var(--color-accent);
+}
+
+.burger span {
+  width: 18px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.burger.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.burger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Соцсети/часы работы внизу мобильного меню — видны только в раскрытом бургер-меню */
+.main-nav-foot { display: none; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.05rem 2.2rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  box-shadow: var(--glow);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  transform: translateY(-2px);
+  background: var(--color-accent-2);
+}
+
+:root[data-theme='dark'] .btn-primary:hover {
+  box-shadow: 0 0 28px rgba(221, 156, 79, 0.45);
+}
+
+.btn-ghost {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.btn-block { width: 100%; }
+.btn-sm { padding: 1.35rem 2.8rem; font-size: 0.85rem; }
+
+/* Мобильное меню */
+@media (max-width: 900px) {
+  :root { --header-h: 72px; }
+
+  .burger { display: flex; }
+
+  .main-nav {
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    background: var(--color-bg);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 2rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+    gap: 0.3rem;
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    border-top: 1px solid var(--color-border);
+    overflow-y: auto;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .main-nav.is-open {
+    transform: translateX(0);
+  }
+
+  /* Ссылки появляются по очереди с небольшой задержкой каждая —
+     раскрытие меню выглядит как единая анимация, а не резкий рывок.
+     Правила специально разбиты на общее (для всех <a>, включая
+     CTA-кнопку) и ":not(.btn)" — иначе, как уже было один раз в этом
+     файле с ".main-nav a" против ".btn-primary", более специфичный
+     здесь ".main-nav a" забил бы паддинги/шрифт самой кнопки. */
+  .main-nav a {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(18px);
+    transition: opacity 380ms ease, transform 380ms ease, color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .main-nav a:not(.btn) {
+    font-size: 1.3rem;
+    font-family: var(--font-heading);
+    padding: 0.85rem 0.9rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .main-nav a:not(.btn):active {
+    background: var(--color-surface-2);
+  }
+
+  .main-nav.is-open a {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .main-nav.is-open a:nth-child(1) { transition-delay: 60ms; }
+  .main-nav.is-open a:nth-child(2) { transition-delay: 100ms; }
+  .main-nav.is-open a:nth-child(3) { transition-delay: 140ms; }
+  .main-nav.is-open a:nth-child(4) { transition-delay: 180ms; }
+  .main-nav.is-open a:nth-child(5) { transition-delay: 220ms; }
+  .main-nav.is-open a:nth-child(6) { transition-delay: 260ms; }
+  .main-nav.is-open a:nth-child(7) { transition-delay: 300ms; }
+
+  .main-nav a::after { display: none; }
+
+  .main-nav a[aria-current='page'] {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+
+  .main-nav .btn,
+  .main-nav a.btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.8rem;
+    padding: 1.05rem 2.2rem;
+  }
+
+  /* Часы работы + соцсети внизу мобильного меню */
+  .main-nav-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 380ms ease 340ms, transform 380ms ease 340ms;
+  }
+
+  .main-nav.is-open .main-nav-foot {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .main-nav-hours {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .main-nav-hours svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
+
+  .main-nav-foot .footer-social {
+    margin-top: 0;
+    gap: 0.9rem;
+  }
+
+  /* Иконки соцсетей внизу мобильного меню крупнее, чем в футере сайта —
+     это самостоятельный, а не второстепенный элемент экрана меню. */
+  .main-nav-foot .footer-social a {
+    width: 46px;
+    height: 46px;
+  }
+
+  .main-nav-foot .footer-social svg {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+/* ---------- 7. Hero ---------- */
+.hero {
+  position: relative;
+  padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
+  overflow: hidden;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-copy .eyebrow { margin-bottom: 1.3rem; }
+
+.hero-copy h1 {
+  margin-bottom: 1.4rem;
+}
+
+.hero-copy h1 em {
+  font-style: italic;
+  background: linear-gradient(120deg, var(--color-accent), var(--color-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-copy > p {
+  font-size: 1.1rem;
+  max-width: 46ch;
+  margin-bottom: 2.2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2.2rem;
+  margin-top: 2.8rem;
+  flex-wrap: wrap;
+}
+
+.hero-stats div strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-accent);
+}
+
+.hero-stats div span {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.hero-visual {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-visual:hover img {
+  transform: scale(1.05);
+}
+
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  background: conic-gradient(from 0deg, transparent, color-mix(in srgb, var(--color-accent) 55%, transparent), transparent 35%);
+  animation: spin-slow 14s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual::before { animation: none; }
+}
+
+.hero-badge {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 1.4rem;
+  right: 1.4rem;
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero-badge svg {
+  width: 30px;
+  height: 30px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.hero-badge strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.hero-badge span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Декоративное зерно на фоне hero — лёгкий parallax через JS (translate по мыши) */
+.hero-deco {
+  position: absolute;
+  color: var(--color-accent);
+  opacity: 0.14;
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform;
+}
+
+.hero-deco.deco-1 { top: -40px; left: -60px; width: 220px; height: 220px; }
+.hero-deco.deco-2 { bottom: -60px; right: 8%; width: 160px; height: 160px; }
+
+/* ---------- 8. Общие секции ---------- */
+.alt-bg { background: var(--color-bg-alt); }
+
+.features-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.7rem;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-accent);
+}
+
+.feature-card .icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+  color: var(--color-accent);
+}
+
+.feature-card .icon-wrap svg { width: 26px; height: 26px; }
+
+.feature-card h3 { margin-bottom: 0.6rem; }
+.feature-card p { font-size: 0.95rem; }
+
+.about-split {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.about-split .media {
+  position: relative;
+  aspect-ratio: 5/4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.about-split ul {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.about-split ul li {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  color: var(--color-text-muted);
+}
+
+.about-split ul li svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cta-banner {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: var(--color-accent-contrast);
+  padding: clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.cta-banner h2 { color: var(--color-accent-contrast); margin-bottom: 0.6rem; }
+.cta-banner p { color: color-mix(in srgb, var(--color-accent-contrast) 80%, transparent); }
+
+.cta-banner .btn-ghost {
+  border-color: color-mix(in srgb, var(--color-accent-contrast) 50%, transparent);
+  color: var(--color-accent-contrast);
+}
+
+.cta-banner .btn-ghost:hover {
+  border-color: var(--color-accent-contrast);
+  color: var(--color-accent-contrast);
+  background: color-mix(in srgb, var(--color-accent-contrast) 12%, transparent);
+}
+
+/* ---------- 9. Карточки меню / напитков ---------- */
+.menu-preview-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.drink-card, .menu-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.drink-card:hover, .menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+}
+
+.drink-card .thumb, .menu-card .thumb {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  position: relative;
+}
+
+.drink-card:hover .thumb .cover-img, .menu-card:hover .thumb .cover-img {
+  transform: scale(1.08);
+}
+
+.badge {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.drink-card .body, .menu-card .body {
+  padding: 1.3rem 1.4rem 1.5rem;
+}
+
+.drink-card .row, .menu-card .row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.drink-card .row h3, .menu-card .row h3 { font-size: 1.1rem; }
+
+.price {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.drink-card p, .menu-card p { font-size: 0.92rem; }
+
+.menu-card .tags {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.menu-card .tags span {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-alt);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+/* Фильтры меню */
+.menu-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.filter-btn.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+/* На узких экранах фильтры превращаются в горизонтальную ленту с
+   инерционной прокруткой и snap вместо переноса на несколько строк —
+   так вся строка фильтров умещается на одном уровне и не занимает
+   лишнюю высоту экрана над карточками. */
+@media (max-width: 640px) {
+  .menu-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-left: calc(-1 * var(--container-pad));
+    margin-right: calc(-1 * var(--container-pad));
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+    padding-bottom: 0.4rem;
+    mask-image: linear-gradient(to right, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
+  }
+
+  .menu-filters::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+}
+
+.menu-category { margin-bottom: 1rem; }
+.menu-category-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0 1.8rem;
+}
+
+.menu-category-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-border), transparent);
+}
+
+.team-avatar {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 1.2rem;
+}
+
+.menu-item-list {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* ---------- 10. Отзывы ---------- */
+.testimonials-track {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.testimonial-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  position: relative;
+  transition: transform 120ms ease-out, box-shadow var(--transition-fast);
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.testimonial-card .stars {
+  color: var(--color-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.testimonial-card p {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  margin-bottom: 1.4rem;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.testimonial-author .avatar-photo {
+  width: 44px;
+  height: 44px;
+}
+
+.testimonial-author strong { display: block; font-size: 0.92rem; }
+.testimonial-author span { font-size: 0.8rem; color: var(--color-text-muted); }
+
+/* Карусель отзывов (библиотека Swiper, см. js/script.js → initTestimonialsCarousel).
+   До инициализации JS .swiper-wrapper — обычная CSS grid-сетка, визуально идентичная
+   .testimonials-track, поэтому если Swiper не загрузится, ничего не ломается —
+   отзывы остаются в виде обычной сетки. */
+.testimonials-track.swiper {
+  overflow: hidden;
+  padding-bottom: 3rem;
+}
+
+.testimonials-track .swiper-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.testimonials-track .swiper-slide {
+  height: auto;
+}
+
+.testimonials-track .swiper-slide .testimonial-card {
+  height: 100%;
+}
+
+.testimonial-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.2rem;
+}
+
+.testimonial-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  opacity: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.testimonial-pagination .swiper-pagination-bullet-active {
+  background: var(--color-accent);
+  transform: scale(1.3);
+}
+
+/* ---------- 11. Галерея ---------- */
+.masonry-grid {
+  columns: 3 260px;
+  column-gap: 1.5rem;
+}
+
+.masonry-grid figure {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  box-shadow: var(--shadow-card);
+}
+
+.masonry-grid img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.masonry-grid .ar-tall img { aspect-ratio: 3 / 4; }
+.masonry-grid .ar-square img { aspect-ratio: 1 / 1; }
+.masonry-grid .ar-wide img { aspect-ratio: 5 / 4; }
+.masonry-grid .ar-xtall img { aspect-ratio: 3 / 5; }
+
+.masonry-grid figure:hover img {
+  transform: scale(1.08);
+}
+
+.masonry-grid figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all var(--transition-fast);
+}
+
+.masonry-grid figure:hover figcaption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-filters { margin-bottom: 2.5rem; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 7, 4, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-stage {
+  max-width: min(90vw, 720px);
+  max-height: 74vh;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  object-fit: cover;
+}
+
+.lightbox-caption {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.lightbox-close, .lightbox-prev, .lightbox-next {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: background var(--transition-fast);
+}
+
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+  background: rgba(255,255,255,0.22);
+}
+
+.lightbox-close { top: 1.5rem; right: 1.5rem; }
+.lightbox-prev { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+
+/* ---------- 12. Блог ---------- */
+.blog-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.article-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+}
+
+.article-card .thumb { aspect-ratio: 16/10; overflow: hidden; display: block; }
+.article-card:hover .thumb .cover-img { transform: scale(1.08); }
+
+.article-card .body { padding: 1.4rem 1.5rem 1.6rem; flex: 1; display: flex; flex-direction: column; }
+
+.article-meta {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.article-meta .cat { color: var(--color-accent); font-weight: 700; }
+
+.article-card h3 { margin-bottom: 0.6rem; }
+.article-card p { font-size: 0.92rem; margin-bottom: 1rem; }
+
+.read-more {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--color-accent);
+}
+
+.read-more svg { width: 16px; height: 16px; transition: transform var(--transition-fast); }
+.article-card:hover .read-more svg { transform: translateX(4px); }
+
+.post-hero {
+  padding-top: 2.5rem;
+  padding-bottom: 0;
+}
+
+.post-hero img {
+  width: 100%;
+  max-width: 720px;
+  margin: 2rem auto 0;
+  aspect-ratio: 21/9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* Секция сразу после hero-картинки статьи — обычный отступ секции
+   (clamp 4–7rem) в этом месте выглядит как случайный лишний воздух
+   между картинкой и первым абзацем, поэтому здесь он меньше. */
+.post-hero + section {
+  padding-top: 2.5rem;
+}
+
+.post-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.post-content h2 { margin-top: 2.4rem; margin-bottom: 1rem; }
+.post-content h3 { margin-top: 1.8rem; margin-bottom: 0.8rem; }
+.post-content p { margin-bottom: 1.2rem; font-size: 1.03rem; }
+.post-content ul, .post-content ol { margin: 0 0 1.2rem 1.3rem; color: var(--color-text-muted); }
+.post-content ul { list-style: disc; }
+.post-content ol { list-style: decimal; }
+.post-content li { margin-bottom: 0.4rem; }
+
+.post-content blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 0.3rem 0 0.3rem 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+.post-tags {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+.post-tags span {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.related-posts {
+  border-top: 1px solid var(--color-border);
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+}
+
+/* ---------- 13. Контакты ---------- */
+.contact-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact-form-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.form-group {
+  margin-bottom: 1.3rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-muted);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.form-group textarea { min-height: 140px; resize: vertical; }
+
+/* Honeypot: скрыто от людей (не display:none — так его не игнорируют примитивные боты),
+   но убрано из потока чтения экранных дикторов и табуляции */
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  left: -9999px;
+}
+
+.form-group .error-msg {
+  display: none;
+  color: #c0392b;
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea {
+  border-color: #c0392b;
+}
+
+.form-group.has-error .error-msg { display: block; }
+
+.form-note {
+  font-size: 0.78rem;
+  margin-top: 1rem;
+  color: var(--color-text-muted);
+}
+
+.form-success {
+  display: none;
+  align-items: center;
+  gap: 0.7rem;
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.3rem;
+  font-size: 0.9rem;
+}
+
+.form-success.is-visible { display: flex; }
+.form-success svg { width: 22px; height: 22px; color: var(--color-accent); flex-shrink: 0; }
+
+.contact-info-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  margin-bottom: 1.6rem;
+}
+
+.contact-info-list { display: grid; gap: 1.2rem; }
+
+.contact-info-list li {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+}
+
+.contact-info-list svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contact-info-list strong { display: block; font-size: 0.92rem; margin-bottom: 0.2rem; }
+.contact-info-list span, .contact-info-list a { font-size: 0.9rem; color: var(--color-text-muted); }
+
+.hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.6rem;
+}
+
+.hours-table td {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--color-border);
+  font-size: 0.9rem;
+}
+
+.hours-table td:last-child { text-align: right; font-weight: 700; color: var(--color-text); }
+
+/* Карта-заглушка */
+.map-placeholder {
+  position: relative;
+  aspect-ratio: 16/10;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: var(--color-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.map-placeholder .pin {
+  width: 46px;
+  height: 46px;
+  color: var(--color-accent);
+  margin: 0 auto 0.8rem;
+}
+
+.map-placeholder p {
+  font-size: 0.85rem;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+/* ---------- 14. Футер ---------- */
+.site-footer {
+  background: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border);
+  padding: 4rem 0 2rem;
+}
+
+.footer-grid {
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand .brand { margin-bottom: 1rem; }
+.footer-brand p { font-size: 0.9rem; max-width: 30ch; }
+
+.footer-social {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.footer-social a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.footer-social svg { width: 17px; height: 17px; }
+
+.footer-col h4 { margin-bottom: 1.1rem; font-size: 0.95rem; }
+.footer-col ul { display: grid; gap: 0.7rem; }
+.footer-col a, .footer-col span {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+.footer-col a:hover { color: var(--color-accent); }
+
+.footer-bottom {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.back-to-top {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.back-to-top:hover { border-color: var(--color-accent); color: var(--color-accent); transform: translateY(-3px); }
+.back-to-top svg { width: 18px; height: 18px; }
+
+/* ---------- 15. Анимации ----------
+   Появление элементов при скролле реализовано через библиотеку AOS
+   (Animate On Scroll, подключена в <head>/перед </body> каждой страницы) —
+   элементы размечены атрибутами data-aos="fade-up" в HTML, инициализация
+   в js/script.js (initScrollAnimations). */
+
+/* Индикатор загрузки страницы */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 500ms ease, visibility 500ms ease;
+}
+
+.page-loader svg {
+  width: 52px;
+  height: 52px;
+  color: var(--color-accent);
+  animation: pulse-logo 1.1s ease-in-out infinite;
+}
+
+.page-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes pulse-logo {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.85); opacity: 0.6; }
+}
+
+.breadcrumb-hero {
+  padding: 3.2rem 0 1rem;
+}
+
+.breadcrumb-hero .eyebrow { margin-bottom: 1rem; }
+.breadcrumb-hero p { max-width: 60ch; margin-top: 1rem; font-size: 1.05rem; }
+
+/* ---------- 16. Адаптивность ---------- */
+@media (max-width: 1080px) {
+  .hero .container { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; max-width: 480px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .about-split { grid-template-columns: 1fr; }
+  .about-split .media { order: -1; }
+  .masonry-grid { columns: 2 220px; }
+}
+
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .cta-banner { flex-direction: column; text-align: center; }
+  .cta-banner .btn { width: 100%; justify-content: center; }
+  .hero-stats { justify-content: center; text-align: center; }
+  .masonry-grid { columns: 1 100%; }
+  .masonry-grid figcaption { opacity: 1; transform: none; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  section { padding: 3rem 0; }
+
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+
+  .contact-form-wrap form .btn-block { width: 100%; }
+
+  .menu-category-title { margin: 2.2rem 0 1.4rem; }
+
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    width: 42px;
+    height: 42px;
+  }
+  .lightbox-close { top: 1rem; right: 1rem; }
+  .lightbox-prev { left: 0.6rem; }
+  .lightbox-next { right: 0.6rem; }
+  .lightbox-caption { bottom: 1.2rem; font-size: 0.85rem; padding: 0 3.5rem; }
+}
+
+/* Совсем маленькие экраны (компактные телефоны) — чуть уже отступы
+   контейнера и хедера, чтобы контенту не было тесно. */
+@media (max-width: 420px) {
+  :root { --container-pad: 1.1rem; }
+  .site-header .container { gap: 0.6rem; }
+  .brand { font-size: 1.15rem; gap: 0.5rem; }
+  .brand svg { width: 32px; height: 32px; }
+  .header-actions { gap: 0.6rem; }
+  .feature-card { padding: 1.6rem 1.3rem; }
+  .drink-card .body, .menu-card .body { padding: 1.1rem 1.1rem 1.3rem; }
+  .testimonial-card { padding: 1.5rem; }
+  .contact-info-card { padding: 1.4rem; }
+}

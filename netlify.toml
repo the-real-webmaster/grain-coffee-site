@@ -1,0 +1,38 @@
+# =============================================================================
+# GRAIN — конфигурация для деплоя на Netlify.
+# Задаёт security-заголовки, которые нельзя выставить через <meta> в HTML
+# (X-Frame-Options, X-Content-Type-Options, Permissions-Policy, HSTS) и
+# дублирует CSP с полноценным frame-ancestors. См. README → «Безопасность».
+# Если сайт не деплоится на Netlify — файл можно удалить, он ни на что
+# не влияет при обычном открытии HTML-файлов или другом хостинге.
+# =============================================================================
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
+    # Включайте HSTS только когда сайт гарантированно всегда доступен по HTTPS
+    # (на Netlify это так по умолчанию для всех *.netlify.app и подключённых доменов с SSL).
+    # Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
